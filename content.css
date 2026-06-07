@@ -1,0 +1,187 @@
+/* Morse Messenger injected UI */
+
+#__morse_btn__ {
+  all: initial;
+  box-sizing: border-box;
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  display: flex;
+  align-items: center;
+  padding: 5px 11px;
+  background: #111827;
+  border: 1.5px solid #22c55e;
+  border-radius: 999px;
+  color: #22c55e;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 0 12px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.5);
+  transition: box-shadow 0.15s, transform 0.15s;
+  white-space: nowrap;
+}
+
+#__morse_btn__:hover {
+  box-shadow: 0 0 20px rgba(34,197,94,0.55), 0 4px 12px rgba(0,0,0,0.6);
+  transform: translateY(-1px);
+}
+
+/* Panel */
+#__morse_panel__ {
+  all: initial;
+  box-sizing: border-box;
+  position: fixed !important;
+  z-index: 2147483646 !important;
+  width: 320px;
+  background: #0d1117;
+  border: 1.5px solid #22c55e;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 28px rgba(34,197,94,0.25), 0 16px 40px rgba(0,0,0,0.8);
+  font-family: 'Courier New', Courier, monospace !important;
+  animation: morseIn 0.18s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes morseIn {
+  from { opacity: 0; transform: scale(0.93) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+#__morse_panel__ * {
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+.mp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.mp-title {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #071009 !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.mp-close {
+  all: unset;
+  cursor: pointer;
+  font-size: 13px !important;
+  color: #071009 !important;
+  opacity: 0.65;
+  line-height: 1;
+  padding: 0 2px;
+}
+.mp-close:hover { opacity: 1; }
+
+.mp-body {
+  padding: 12px 14px 10px;
+}
+
+.mp-row {
+  margin-bottom: 9px;
+}
+
+.mp-lbl {
+  font-size: 9px !important;
+  color: #22c55e !important;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+.mp-src {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 12px !important;
+  color: #c9d1d9 !important;
+  min-height: 30px;
+  max-height: 52px;
+  overflow-y: auto;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.mp-src i, .mp-out i {
+  color: #444 !important;
+  font-style: italic;
+  font-size: 11px !important;
+}
+
+.mp-out {
+  background: #080d0f;
+  border: 1px solid #22c55e44;
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 12px !important;
+  color: #22c55e !important;
+  min-height: 30px;
+  max-height: 60px;
+  overflow-y: auto;
+  word-break: break-all;
+  letter-spacing: 2px;
+  line-height: 1.7;
+}
+
+.mp-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mp-btn {
+  all: unset;
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.15s;
+}
+
+.mp-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.mp-copy {
+  background: #161b22 !important;
+  color: #22c55e !important;
+  border: 1px solid #22c55e55 !important;
+}
+.mp-copy:not(:disabled):hover {
+  background: #1f2a1f !important;
+  border-color: #22c55e !important;
+}
+
+.mp-replace {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: #071009 !important;
+}
+.mp-replace:not(:disabled):hover {
+  box-shadow: 0 0 12px rgba(34,197,94,0.5);
+  transform: translateY(-1px);
+}
+
+.mp-status {
+  font-size: 10px !important;
+  color: #22c55e !important;
+  text-align: center;
+  margin-top: 7px;
+  min-height: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
