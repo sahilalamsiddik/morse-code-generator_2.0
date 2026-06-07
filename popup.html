@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Morse Messenger</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  width:310px;background:#0d1117;color:#c9d1d9;
+  font-family:'Courier New',Courier,monospace;
+}
+.hd{
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+}
+.hd-ic{font-size:20px;color:#071009;letter-spacing:3px;font-weight:900}
+.hd-text h1{font-size:12px;font-weight:800;color:#071009;letter-spacing:1.5px;text-transform:uppercase}
+.hd-text p{font-size:10px;color:#071009;opacity:.65;margin-top:2px}
+.bd{padding:14px}
+label{display:block;font-size:9px;color:#22c55e;letter-spacing:2px;text-transform:uppercase;opacity:.75;margin-bottom:5px}
+textarea,#out{
+  width:100%;background:#161b22;border:1px solid #21262d;
+  border-radius:7px;padding:8px 10px;font-family:'Courier New',Courier,monospace;
+  font-size:12px;line-height:1.5;
+}
+textarea{color:#c9d1d9;resize:none;height:72px;outline:none;transition:border .2s}
+textarea:focus{border-color:#22c55e55}
+#out{
+  color:#22c55e;background:#080d0f;border-color:#22c55e33;
+  min-height:64px;word-break:break-all;letter-spacing:1.8px;line-height:1.7;
+  margin-bottom:10px;cursor:text;user-select:all
+}
+.row{margin-bottom:12px}
+.btns{display:flex;gap:8px;margin-top:4px}
+button{
+  flex:1;padding:8px;border:none;border-radius:7px;cursor:pointer;
+  font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:800;
+  letter-spacing:.5px;text-transform:uppercase;transition:all .15s
+}
+button:disabled{opacity:.3;cursor:not-allowed}
+#cpy{background:#161b22;color:#22c55e;border:1px solid #22c55e44}
+#cpy:not(:disabled):hover{background:#1f2a1f;border-color:#22c55e}
+#clr{background:#161b22;color:#f87171;border:1px solid #f8717133}
+#clr:not(:disabled):hover{background:#1f1010;border-color:#f87171}
+.st{font-size:10px;color:#22c55e;text-align:center;min-height:14px;opacity:0;transition:opacity .3s;margin-top:6px}
+.st.on{opacity:1}
+.div{height:1px;background:#21262d;margin:12px 0}
+.reftog{
+  width:100%;padding:7px;background:#161b22;color:#8b949e;
+  border:1px solid #21262d;border-radius:7px;cursor:pointer;
+  font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1px;
+  text-transform:uppercase;transition:all .15s
+}
+.reftog:hover{color:#c9d1d9;border-color:#444}
+.ref{display:none;background:#0a0f15;border:1px solid #21262d;border-radius:7px;padding:8px;max-height:150px;overflow-y:auto;margin-top:8px}
+.ref.open{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.ri{display:flex;align-items:center;gap:4px;background:#111827;border-radius:4px;padding:3px 5px;font-size:10px}
+.rc{color:#fff;font-weight:700;min-width:10px}
+.rm{color:#22c55e;letter-spacing:1px;font-size:10px}
+.tip{font-size:10px;color:#444;text-align:center;padding:8px 10px 10px;border-top:1px solid #21262d;line-height:1.5}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:#22c55e33;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="hd-ic">·−</div>
+  <div class="hd-text">
+    <h1>Morse Messenger</h1>
+    <p>Instant Morse Code Converter</p>
+  </div>
+</div>
+<div class="bd">
+  <div class="row">
+    <label>Your Text</label>
+    <textarea id="inp" placeholder="Type here…"></textarea>
+  </div>
+  <div class="row">
+    <label>Morse Output</label>
+    <div id="out"><span style="color:#333;font-style:italic;font-size:11px">Morse will appear here…</span></div>
+  </div>
+  <div class="btns">
+    <button id="cpy" disabled>📋 Copy</button>
+    <button id="clr" disabled>✕ Clear</button>
+  </div>
+  <div class="st" id="st"></div>
+  <div class="div"></div>
+  <button class="reftog" id="reftog">▸ Morse Reference</button>
+  <div class="ref" id="ref"><div class="grid" id="grid"></div></div>
+</div>
+<div class="tip">💡 Click any chat input on any site — a <b style="color:#22c55e">·− Morse</b> button appears!</div>
+
+<script>
+const MC={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.','.'  :'.-.-.-',','  :'--..--','?':'..--..','!':'-.-.--'};
+function tm(t){return t.toUpperCase().split('').map(c=>c===' '?'/':MC[c]||c).join(' ')}
+
+const inp=document.getElementById('inp'),out=document.getElementById('out'),
+      cpy=document.getElementById('cpy'),clr=document.getElementById('clr'),
+      st=document.getElementById('st');
+let cur='';
+
+inp.addEventListener('input',()=>{
+  const t=inp.value;
+  if(t.trim()){cur=tm(t);out.textContent=cur;cpy.disabled=clr.disabled=false;}
+  else{cur='';out.innerHTML='<span style="color:#333;font-style:italic;font-size:11px">Morse will appear here…</span>';cpy.disabled=clr.disabled=true;}
+});
+
+cpy.addEventListener('click',async()=>{
+  if(!cur)return;
+  try{await navigator.clipboard.writeText(cur);flash('✅ Copied!');}
+  catch{flash('⚠️ Try again');}
+  cpy.textContent='✅ Done!';setTimeout(()=>cpy.textContent='📋 Copy',2000);
+});
+
+clr.addEventListener('click',()=>{
+  inp.value='';cur='';
+  out.innerHTML='<span style="color:#333;font-style:italic;font-size:11px">Morse will appear here…</span>';
+  cpy.disabled=clr.disabled=true;inp.focus();
+});
+
+function flash(m){st.textContent=m;st.classList.add('on');setTimeout(()=>st.classList.remove('on'),2500);}
+
+// Reference chart
+const grid=document.getElementById('grid');
+Object.entries(MC).forEach(([c,m])=>{
+  const d=document.createElement('div');d.className='ri';
+  d.innerHTML=`<span class="rc">${c}</span><span class="rm">${m}</span>`;
+  grid.appendChild(d);
+});
+
+document.getElementById('reftog').addEventListener('click',()=>{
+  const r=document.getElementById('ref'),b=document.getElementById('reftog');
+  r.classList.toggle('open');
+  b.textContent=r.classList.contains('open')?'▾ Morse Reference':'▸ Morse Reference';
+});
+</script>
+</body>
+</html>
