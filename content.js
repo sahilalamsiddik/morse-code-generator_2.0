@@ -1,14 +1,4 @@
-/* ============================================================
-   MORSE CODE MESSENGER — content.js v2
-   Fixes:
-   - Button uses fixed positioning (not absolute) — never drifts
-   - Works on WhatsApp Web, Telegram, Instagram, Slack, Discord,
-     Gmail, Twitter/X, FB Messenger, etc.
-   - MutationObserver to catch dynamically added inputs (SPAs)
-   - focusout debounce accounts for panel clicks
-   - contenteditable text read/write fully compatible
-   - Panel stays visible while user reads it
-   ============================================================ */
+
 
 const MORSE = {
   A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',
