@@ -33,7 +33,7 @@ let btnEl      = null;   // the floating ·− button
 let panelEl    = null;   // the panel
 let hideTimer  = null;   // debounce for hiding btn
 
-/* ---------- helpers ---------- */
+/* ---------- helpers --- */
 
 function isTypable(el) {
   if (!el || el === document.body) return false;
